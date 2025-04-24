@@ -1,0 +1,22 @@
+{
+    "manifest_version": 3,
+    "name": "F#ck infinite Scroll",
+    "version": "1.0",
+    "permissions": ["scripting"],
+    "host_permissions": ["https://www.youtube.com/*"],
+    "background": {
+      "service_worker": "background.js"
+    },
+    "content_scripts": [
+      {
+        "matches": ["https://www.youtube.com/shorts/*"],
+        "js": ["content.js"]
+      }
+    ],
+    "action": {
+        "default_popup": "hello.html",
+        "default_title": "YouTube Stop Scroll",
+        "default_icon": "icon.png"
+    }
+  }
+  
