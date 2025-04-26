@@ -1,5 +1,3 @@
-console.log('Lancement du script');
-
 let checkInterval;
 
 function deleteShit() {
@@ -21,18 +19,25 @@ function deleteShit() {
 }
 
 function startDetection() {
-    console.log('🚀 Début de la détection des shorts...');
-    clearInterval(checkInterval); // pour éviter les doublons
+    clearInterval(checkInterval);
     checkInterval = setInterval(deleteShit, 500);
 }
 
-// ✅ 1. Lancer dès que le DOM est prêt
-document.addEventListener("DOMContentLoaded", startDetection);
+if (window.location.href.split('/')[3] == "shorts") {
+    // ✅ 1. Lancer dès que le DOM est prêt
+    document.addEventListener("DOMContentLoaded", startDetection());
+}
 
 // ✅ 2. Relancer en cas de navigation interne (SPA)
-if (window.navigation && window.navigation.addEventListener) {
-    window.navigation.addEventListener("navigate", () => {
-        console.log("🔁 Navigation détectée (SPA)");
-        startDetection();
-    });
-}
+
+chrome.runtime.onMessage.addListener(
+    function(request, sender, sendResponse) {
+      // listen for messages sent from background.js
+      if (request.message === 'start') {
+        if (window.location.href.split('/')[3] == "shorts") {
+            console.log("🔁 Navigation détectée (SPA)");
+            startDetection();
+        }
+      }
+    }
+);
