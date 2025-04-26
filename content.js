@@ -1,3 +1,5 @@
+console.log('Lancement du script');
+
 let checkInterval;
 
 function deleteShit() {
